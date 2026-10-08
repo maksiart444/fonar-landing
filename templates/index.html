@@ -24,6 +24,8 @@
 </head>
 <body>
 
+  {% if demo %}<div class="demo-bar">Демо-версія · проєкт для портфоліо — замовлення не обробляються</div>{% endif %}
+
   <!-- ===== ПЕРВЫЙ ЭКРАН ===== -->
   <header class="hero">
     <div class="snow" aria-hidden="true"></div>
@@ -90,7 +92,7 @@
     <div class="wrap order__box">
       <h2>Оформити замовлення</h2>
       <p class="order__price">{{ p.price }} {{ p.currency }} · оплата при отриманні</p>
-      {% if demo %}<p class="small">Демо-версія сайту: замовлення не надсилаються і не зберігаються.</p>{% endif %}
+      {% if demo %}<p class="demo-note">Демо-версія сайту: замовлення не надсилаються і не зберігаються.</p>{% endif %}
       <form id="orderForm" novalidate>
         <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off">
         <label>Ім'я
