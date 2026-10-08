@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ p.name }} — {{ p.price }} {{ p.currency }}</title>
+  <meta name="description" content="Новорічний LED-ліхтар зі снігопадом, підсвіткою і 5 різдвяними мелодіями. Оплата при отриманні, доставка Новою Поштою.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  {% if pixel_id %}
+  <!-- Meta Pixel: нужен для рекламы в Facebook/Instagram -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '{{ pixel_id }}');
+    fbq('track', 'PageView');
+  </script>
+  {% endif %}
+</head>
+<body>
+
+  <!-- ===== ПЕРВЫЙ ЭКРАН ===== -->
+  <header class="hero">
+    <div class="snow" aria-hidden="true"></div>
+    <div class="wrap hero__grid">
+      <div class="hero__text">
+        <span class="badge">🎄 Хіт до Нового року</span>
+        <h1>{{ p.name }}</h1>
+        <p class="lead">Зимова казка у вашій оселі: тепле світло, сніг, що падає всередині ліхтаря, і 5 різдвяних мелодій.</p>
+        <div class="price">{{ p.price }} <span>{{ p.currency }}</span></div>
+        <a href="#order" class="btn">Замовити</a>
+        <p class="note">💳 Оплата при отриманні · 🚚 Нова Пошта по всій Україні</p>
+      </div>
+      <div class="hero__media">
+        <!-- Сюда положи главное фото или видео товара: static/img/main.png -->
+        <img src="{{ url_for('static', filename='img/main.png') }}" alt="{{ p.name }}">
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== ПРЕИМУЩЕСТВА ===== -->
+  <section class="wrap features">
+    <div class="card"><div class="ico">❄️</div><h3>Ефект снігопаду</h3><p>Сніжинки кружляють усередині ліхтаря навколо фігурки Святого Миколая.</p></div>
+    <div class="card"><div class="ico">🎵</div><h3>5 різдвяних мелодій</h3><p>Святкова музика створює настрій з першої секунди.</p></div>
+    <div class="card"><div class="ico">🔌</div><h3>USB або батарейки</h3><p>Працює від USB або від 3×AA — можна поставити будь-де.</p></div>
+    <div class="card"><div class="ico">🎁</div><h3>Готовий подарунок</h3><p>У заводській упаковці. Дітям, батькам, колегам.</p></div>
+  </section>
+
+  <!-- ===== ГАЛЕРЕЯ ===== -->
+  <section class="wrap gallery">
+    <h2>Як він виглядає</h2>
+    <div class="gallery__grid">
+      <img src="{{ url_for('static', filename='img/photo1.png') }}" alt="Фото 1" loading="lazy">
+      <img src="{{ url_for('static', filename='img/photo2.png') }}" alt="Фото 2" loading="lazy">
+      <img src="{{ url_for('static', filename='img/photo3.png') }}" alt="Фото 3" loading="lazy">
+    </div>
+  </section>
+
+  <!-- ===== ХАРАКТЕРИСТИКИ ===== -->
+  <section class="wrap specs">
+    <h2>Характеристики</h2>
+    <table>
+      <tr><td>Модель</td><td>{{ p.model }}</td></tr>
+      <tr><td>Розмір</td><td>15,5 × 11,5 × 25,5 см</td></tr>
+      <tr><td>Освітлення</td><td>LED, різнокольорове</td></tr>
+      <tr><td>Ефекти</td><td>снігопад, підсвітка, музика</td></tr>
+      <tr><td>Живлення</td><td>USB або 3×AA (батарейки не входять у комплект)</td></tr>
+      <tr><td>Комплектація</td><td>ліхтар, USB-кабель, упаковка</td></tr>
+    </table>
+  </section>
+
+  <!-- ===== КАК ЗАКАЗАТЬ ===== -->
+  <section class="wrap steps">
+    <h2>Як замовити</h2>
+    <ol>
+      <li><b>Залиште заявку</b> — лише ім'я і телефон.</li>
+      <li><b>Ми зателефонуємо</b>, підтвердимо замовлення і відділення.</li>
+      <li><b>Відправимо Новою Поштою</b>, зазвичай за 1–3 дні.</li>
+      <li><b>Оплачуєте при отриманні</b> після огляду у відділенні.</li>
+    </ol>
+  </section>
+
+  <!-- ===== ФОРМА ЗАКАЗА ===== -->
+  <section class="order" id="order">
+    <div class="wrap order__box">
+      <h2>Оформити замовлення</h2>
+      <p class="order__price">{{ p.price }} {{ p.currency }} · оплата при отриманні</p>
+      {% if demo %}<p class="small">Демо-версія сайту: замовлення не надсилаються і не зберігаються.</p>{% endif %}
+      <form id="orderForm" novalidate>
+        <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off">
+        <label>Ім'я
+          <input type="text" name="name" placeholder="Олена" required>
+          <small class="err" data-for="name"></small>
+        </label>
+        <label>Телефон
+          <input type="tel" name="phone" placeholder="050 123 45 67" required>
+          <small class="err" data-for="phone"></small>
+        </label>
+        <label>Кількість
+          <select name="qty">
+            <option>1</option><option>2</option><option>3</option>
+          </select>
+        </label>
+        <label>Коментар (необов'язково)
+          <input type="text" name="comment" placeholder="Місто, відділення НП або побажання">
+        </label>
+        <button type="submit" class="btn btn--full">Замовити</button>
+        <p class="form-msg" id="formMsg"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== ВОПРОСЫ ===== -->
+  <section class="wrap faq">
+    <h2>Питання</h2>
+    <details><summary>Чи входять батарейки?</summary><p>Ні, але ліхтар працює від USB-кабелю, який є в комплекті. Для роботи без дроту потрібні 3 батарейки AA.</p></details>
+    <details><summary>Можна оглянути перед оплатою?</summary><p>Так, ви оплачуєте замовлення у відділенні Нової Пошти після огляду.</p></details>
+    <details><summary>Скільки йде доставка?</summary><p>Зазвичай 1–3 дні після підтвердження замовлення.</p></details>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="small">Колір і вигляд товару можуть дещо відрізнятися від фото.</p>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    const msg = document.getElementById('formMsg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      form.querySelectorAll('.err').forEach(el => el.textContent = '');
+      msg.textContent = '';
+      const btn = form.querySelector('button');
+      btn.disabled = true; btn.textContent = 'Надсилаємо…';
+
+      const data = Object.fromEntries(new FormData(form));
+      try {
+        const res = await fetch('/order', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        if (json.ok && json.demo) {
+          form.innerHTML = '<p class="success">✅ Форма працює! Це демо-версія сайту — замовлення нікуди не надіслано.</p>';
+        } else if (json.ok) {
+          form.innerHTML = '<p class="success">✅ Дякуємо! Ми зателефонуємо вам найближчим часом, щоб підтвердити замовлення.</p>';
+          if (window.fbq) fbq('track', 'Lead');
+        } else {
+          for (const [field, text] of Object.entries(json.errors || {})) {
+            const el = form.querySelector(`.err[data-for="${field}"]`);
+            if (el) el.textContent = text;
+          }
+          btn.disabled = false; btn.textContent = 'Замовити';
+        }
+      } catch {
+        msg.textContent = 'Помилка мережі. Спробуйте ще раз.';
+        btn.disabled = false; btn.textContent = 'Замовити';
+      }
+    });
+  </script>
+</body>
+</html>
